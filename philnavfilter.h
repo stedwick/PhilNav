@@ -25,12 +25,14 @@ class PhilNavFilterRunnable : public QVideoFilterRunnable
 public:
     PhilNavFilterRunnable(PhilNavFilter *creator) {
         m_filter = creator;
+        m_dirty = false;
     };
     QVideoFrame run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, RunFlags flags);
 
 private:
     PhilNavFilter *m_filter;
     QImage m_image;
+    bool m_dirty;
 };
 
 #endif // PHILNAVFILTER_H

@@ -9,14 +9,25 @@ QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFo
     Q_UNUSED(surfaceFormat);
     Q_UNUSED(flags);
 
+
     input->map(QAbstractVideoBuffer::ReadOnly);
 
     m_image = qt_imageFromVideoFrame(*input);
+    m_image = m_image.copy(m_image.width()/4, m_image.height()/4, m_image.width()/2, m_image.height()/2);
+    m_image = m_image.scaled(320, 180);
+
     m_image = m_image.convertToFormat(QImage::Format_Grayscale8);
-    m_image = m_image.mirrored();
+    // m_image = m_image.mirrored();
 
     input->unmap();
 
+#ifdef QT_DEBUG
+    QString image_path("/Users/pbrocoum/Downloads/img.jpg");
+    if (!m_dirty)
+        m_image.save(image_path);
+#endif
+
+    m_dirty = true;
     emit m_filter->frameProcessed();
 
     return *input;
