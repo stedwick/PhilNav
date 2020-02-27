@@ -31,8 +31,16 @@ Window {
         onFrameProcessed: {
             smile.color = Qt.rgba(Math.random(), Math.random(),
                                   Math.random(), 1)
-            // philNavFilterOnFrameProcessedConnection.enabled = false
+            philNavImage.source = "image://philnavimageprovider/" + Math.random(
+                        )
+            philNavFilterOnFrameProcessedConnection.enabled = false
         }
+    }
+    Timer {
+        interval: 3000
+        //        running: true
+        repeat: true
+        onTriggered: philNavFilterOnFrameProcessedConnection.enabled = true
     }
 
     Flow {
@@ -51,7 +59,9 @@ Window {
             width: 320
             height: 180
             Image {
+                id: philNavImage
                 anchors.fill: parent
+                cache: false
             }
         }
 

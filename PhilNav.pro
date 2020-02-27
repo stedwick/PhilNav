@@ -14,11 +14,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
-    philnavfilter.h
+    philnavfilter.h \
+    philnavimageprovider.h
 
 SOURCES += \
         main.cpp \
-        philnavfilter.cpp
+        philnavfilter.cpp \
+        philnavimageprovider.cpp
 
 RESOURCES += qml.qrc
 

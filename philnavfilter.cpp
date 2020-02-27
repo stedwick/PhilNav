@@ -1,4 +1,5 @@
 #include "philnavfilter.h"
+#include "philnavimageprovider.h"
 
 QVideoFilterRunnable* PhilNavFilter::createFilterRunnable() {
     return new PhilNavFilterRunnable(this);
@@ -23,10 +24,12 @@ QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFo
 
 #ifdef QT_DEBUG
     QString image_path("/Users/pbrocoum/Downloads/img.jpg");
-    if (!m_dirty)
+    if (!m_dirty) {
         m_image.save(image_path);
+    }
 #endif
 
+    PhilNavImageProvider::image = m_image.copy();
     m_dirty = true;
     emit m_filter->frameProcessed();
 
