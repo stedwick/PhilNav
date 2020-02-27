@@ -5,7 +5,9 @@
 #include <QDebug>
 #include <QTemporaryFile>
 #include <QMutex>
-//#include "opencv2/opencv.hpp"
+#include "private/qvideoframe_p.h"
+
+#include "opencv2/opencv.hpp"
 
 class QCvDetectFilter : public QAbstractVideoFilter
 {
@@ -29,6 +31,7 @@ public:
 private:
 //    void dft(cv::InputArray input, cv::OutputArray output);
     QCvDetectFilter *filter;
+    QImage m_image;
 };
 
 #endif // QCVDETECTFILTER_H

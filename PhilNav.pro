@@ -1,4 +1,4 @@
-QT += quick multimedia
+QT += quick multimedia multimedia-private
 
 CONFIG += c++11
 
@@ -39,3 +39,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     qcvdetectfilter.h
+
+
+LIBS += -L$$PWD/../../../../usr/local/Cellar/opencv/4.2.0_1/lib/ -lopencv_core.4.2.0
+
+INCLUDEPATH += $$PWD/../../../../usr/local/Cellar/opencv/4.2.0_1/include/opencv4
+DEPENDPATH += $$PWD/../../../../usr/local/Cellar/opencv/4.2.0_1/include/opencv4
