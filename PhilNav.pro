@@ -13,9 +13,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+HEADERS += \
+    philnavfilter.h
+
 SOURCES += \
         main.cpp \
-        qcvdetectfilter.cpp
+        philnavfilter.cpp
 
 RESOURCES += qml.qrc
 
@@ -24,6 +27,10 @@ TRANSLATIONS += \
 
 macx {
     QMAKE_INFO_PLIST = mac/Info.plist
+
+    LIBS += -L/usr/local/Cellar/opencv/4.2.0_1/lib -lopencv_core
+    INCLUDEPATH += /usr/local/Cellar/opencv/4.2.0_1/include/opencv4
+    DEPENDPATH += /usr/local/Cellar/opencv/4.2.0_1/include/opencv4
 }
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -36,12 +43,3 @@ QML_DESIGNER_IMPORT_PATH =
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-HEADERS += \
-    qcvdetectfilter.h
-
-
-LIBS += -L$$PWD/../../../../usr/local/Cellar/opencv/4.2.0_1/lib/ -lopencv_core.4.2.0
-
-INCLUDEPATH += $$PWD/../../../../usr/local/Cellar/opencv/4.2.0_1/include/opencv4
-DEPENDPATH += $$PWD/../../../../usr/local/Cellar/opencv/4.2.0_1/include/opencv4
