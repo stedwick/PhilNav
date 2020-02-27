@@ -3,12 +3,23 @@ import QtQuick.Window 2.14
 import QtQuick.Controls 2.14
 import QtMultimedia 5.14
 
+import com.philnav.classes 1.0
+
 Window {
     visible: true
     width: 640
     height: 480
     color: "#00000000"
     title: qsTr("PhilNav")
+
+    CvDetectFilter
+    {
+        id: hsvFilter
+        onObjectDetected :
+        {
+            smile.color = Qt.rgba(Math.random(),Math.random(),Math.random(),1);
+        }
+    }
 
     Camera {
         id: camera
@@ -36,6 +47,7 @@ Window {
             VideoOutput {
                 source: camera_hsv
                 anchors.fill: parent
+                filters : [hsvFilter]
             }
         }
 
@@ -117,5 +129,14 @@ Window {
             second.value: 255
         }
 
+        Rectangle {
+            id: smile
+            width: 100
+            height: 25
+            color: "red"
+            border.color: "black"
+            border.width: 5
+            radius: 10
+        }
     }
 }
