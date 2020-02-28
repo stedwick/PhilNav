@@ -24,13 +24,17 @@ QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFo
 
     m_image = m_image.convertToFormat(QImage::Format_BGR888);
     cv::Mat mat = QImage2CVMat(m_image);
-    cv::cvtColor(mat, mat, cv::COLOR_BGR2GRAY);
-    cv::cvtColor(mat, mat, cv::COLOR_GRAY2BGR);
-    QImage m_image_b = CVMat2QImage(mat);
+    cv::cvtColor(mat, mat, cv::COLOR_BGR2HSV);
+
+    cv::Mat mat_inrange;
+    cv::inRange(mat, cv::Scalar(0, 0, 0), cv::Scalar(100, 100, 100), mat_inrange);
+    cv::cvtColor(mat_inrange, mat_inrange, cv::COLOR_GRAY2BGR);
+    QImage m_image_b = CVMat2QImage(mat_inrange);
 
     input->unmap();
 
     if (!m_dirty) {
+//        cv::imwrite("/Users/pbrocoum/Downloads/img.jpg", mat_inrange);
         PhilNavImageProvider::image = m_image_b;
 
         emit m_filter->frameProcessed();
