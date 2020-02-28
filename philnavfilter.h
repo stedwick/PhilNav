@@ -26,6 +26,7 @@ public:
     PhilNavFilterRunnable(PhilNavFilter *creator) {
         m_filter = creator;
         m_dirty = false;
+        m_frame = 0;
     };
     QVideoFrame run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, RunFlags flags);
 
@@ -33,6 +34,7 @@ private:
     PhilNavFilter *m_filter;
     QImage m_image;
     bool m_dirty;
+    int m_frame;
 };
 
 #endif // PHILNAVFILTER_H

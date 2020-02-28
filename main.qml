@@ -28,19 +28,19 @@ Window {
     Connections {
         id: philNavFilterOnFrameProcessedConnection
         target: philNavFilter
-        onFrameProcessed: {
-            smile.color = Qt.rgba(Math.random(), Math.random(),
-                                  Math.random(), 1)
-            philNavImage.source = "image://philnavimageprovider/" + Math.random(
-                        )
-            philNavFilterOnFrameProcessedConnection.enabled = false
-        }
+        onFrameProcessed: philNavImageTimer.start()
     }
     Timer {
-        interval: 3000
-        //        running: true
-        repeat: true
-        onTriggered: philNavFilterOnFrameProcessedConnection.enabled = true
+        id: philNavImageTimer
+        interval: 1000 / 15
+        running: false
+        repeat: false
+        onTriggered: {
+            smile.color = Qt.rgba(Math.random(), Math.random(),
+                                  Math.random(), 1)
+            philNavImage.source = ""
+            philNavImage.source = "file:/Users/pbrocoum/Downloads/img.jpg"
+        }
     }
 
     Flow {
