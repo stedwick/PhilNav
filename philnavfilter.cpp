@@ -11,7 +11,7 @@ QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFo
     Q_UNUSED(flags);
 
     m_frame++;
-    if (m_frame > 3) {
+    if (m_frame > 0) {
         m_dirty = false;
         m_frame = 1;
     }

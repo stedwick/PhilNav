@@ -32,7 +32,7 @@ Window {
     }
     Timer {
         id: philNavImageTimer
-        interval: 1000 / 15
+        interval: 1
         running: false
         repeat: false
         onTriggered: {
