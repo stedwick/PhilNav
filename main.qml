@@ -39,7 +39,7 @@ Window {
             smile.color = Qt.rgba(Math.random(), Math.random(),
                                   Math.random(), 1)
             philNavImage.source = ""
-            philNavImage.source = "file:/Users/pbrocoum/Downloads/img.jpg"
+            philNavImage.source = "image://philnavimageprovider/0"
         }
     }
 

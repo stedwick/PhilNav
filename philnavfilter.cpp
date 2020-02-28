@@ -11,7 +11,7 @@ QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFo
     Q_UNUSED(flags);
 
     m_frame++;
-    if (m_frame > 10) {
+    if (m_frame > 3) {
         m_dirty = false;
         m_frame = 1;
     }
@@ -26,14 +26,13 @@ QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFo
     input->unmap();
 
     if (!m_dirty) {
-        QString image_path("/Users/pbrocoum/Downloads/img.jpg");
-        m_image.save(image_path);
+//        QString image_path("/Users/pbrocoum/Downloads/img.jpg");
+//        m_image.save(image_path);
+        PhilNavImageProvider::image = m_image;
 
         emit m_filter->frameProcessed();
         m_dirty = true;
     }
-
-//    PhilNavImageProvider::image = m_image.copy();
 
     return *input;
 }
