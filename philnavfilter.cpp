@@ -28,6 +28,7 @@ QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFo
     if (!m_dirty) {
         QString image_path("/Users/pbrocoum/Downloads/img.jpg");
         m_image.save(image_path);
+
         emit m_filter->frameProcessed();
         m_dirty = true;
     }
