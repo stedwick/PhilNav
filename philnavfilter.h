@@ -30,6 +30,10 @@ public:
     };
     QVideoFrame run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, RunFlags flags);
 
+protected:
+    cv::Mat QImage2CVMat(QImage &src);
+    QImage CVMat2QImage(cv::Mat &src);
+
 private:
     PhilNavFilter *m_filter;
     QImage m_image;
