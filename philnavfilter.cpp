@@ -24,7 +24,9 @@ QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFo
 
     m_image = m_image.convertToFormat(QImage::Format_BGR888);
     cv::Mat mat = QImage2CVMat(m_image);
-    QImage m_image_b = CVMat2QImage(mat).rgbSwapped();
+    cv::cvtColor(mat, mat, cv::COLOR_BGR2GRAY);
+    cv::cvtColor(mat, mat, cv::COLOR_GRAY2BGR);
+    QImage m_image_b = CVMat2QImage(mat);
 
     input->unmap();
 
@@ -46,6 +48,6 @@ cv::Mat PhilNavFilterRunnable::QImage2CVMat(QImage &src)
 
 QImage PhilNavFilterRunnable::CVMat2QImage(cv::Mat &src)
 {
-    QImage dest(src.data, src.cols, src.rows, src.step, QImage::Format_RGB888);
+    QImage dest(src.data, src.cols, src.rows, src.step, QImage::Format_BGR888);
     return dest;
 }
