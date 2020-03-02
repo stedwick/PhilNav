@@ -2,6 +2,7 @@
 #define PHILNAVFILTER_H
 
 #include <QAbstractVideoFilter>
+#include <QSettings>
 
 #include "opencv2/opencv.hpp"
 
@@ -34,6 +35,7 @@ private:
     QImage m_image;
     bool m_dirty;
     int m_frame;
+    QSettings settings;
 };
 
 #endif // PHILNAVFILTER_H

@@ -35,7 +35,9 @@ QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFo
     cv::cvtColor(mat, mat, cv::COLOR_BGR2HSV);
 
     cv::Mat mat_inrange;
-    cv::inRange(mat, cv::Scalar(0, 0, 0), cv::Scalar(100, 100, 100), mat_inrange);
+    cv::Scalar hsvLow(settings.value("hsvHueLow").toInt()/2, settings.value("hsvSatLow").toInt(), settings.value("hsvValLow").toInt());
+    cv::Scalar hsvHigh(settings.value("hsvHueHigh").toInt()/2, settings.value("hsvSatHigh").toInt(), settings.value("hsvValHigh").toInt());
+    cv::inRange(mat, hsvLow, hsvHigh, mat_inrange);
     cv::cvtColor(mat_inrange, mat_inrange, cv::COLOR_GRAY2BGR);
     QImage m_image_b = CVMat2QImage(mat_inrange);
 

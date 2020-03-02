@@ -2,8 +2,9 @@ import QtQuick 2.14
 import QtQuick.Window 2.14
 import QtQuick.Controls 2.14
 import QtMultimedia 5.14
+import Qt.labs.settings 1.0
 
-import com.philipbrocoum.philnav 1.0
+import com.philnav.filters 1.0
 
 Window {
     id: window
@@ -41,6 +42,14 @@ Window {
         id: philNavFilterOnFrameProcessedConnection
         target: philNavFilter
         onFrameProcessed: philNavImageTimer.start()
+    }
+    Settings {
+        property alias hsvHueLow: hueSlider.first.value
+        property alias hsvHueHigh: hueSlider.second.value
+        property alias hsvSatLow: satSlider.first.value
+        property alias hsvSatHigh: satSlider.second.value
+        property alias hsvValLow: valSlider.first.value
+        property alias hsvValHigh: valSlider.second.value
     }
 
     Flow {
@@ -135,6 +144,7 @@ Window {
             }
         }
         RangeSlider {
+            id: satSlider
             width: parent.width
             from: 0
             to: 255
@@ -165,6 +175,7 @@ Window {
             }
         }
         RangeSlider {
+            id: valSlider
             width: parent.width
             from: 0
             to: 255

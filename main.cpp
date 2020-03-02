@@ -10,8 +10,11 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
+    app.setOrganizationName("PhilNav LLC");
+    app.setOrganizationDomain("philnav.com");
+    app.setApplicationName("PhilNav");
 
-    qmlRegisterType<PhilNavFilter>("com.philipbrocoum.philnav", 1, 0, "PhilNavFilter");
+    qmlRegisterType<PhilNavFilter>("com.philnav.filters", 1, 0, "PhilNavFilter");
 
     QQmlApplicationEngine engine;
     engine.addImageProvider(QLatin1String("philnavimageprovider"), new PhilNavImageProvider);
