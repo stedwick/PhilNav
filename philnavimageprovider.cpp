@@ -1,5 +1,7 @@
 #include "philnavimageprovider.h"
 
+PhilNavImageProvider::PhilNavImageProvider() : QQuickImageProvider(QQuickImageProvider::Image) {}
+
 QImage PhilNavImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     Q_UNUSED(id)

@@ -1,9 +1,17 @@
 #include "philnavfilter.h"
 #include "philnavimageprovider.h"
 
+#include "private/qvideoframe_p.h"
+
 QVideoFilterRunnable* PhilNavFilter::createFilterRunnable() {
     return new PhilNavFilterRunnable(this);
 }
+
+PhilNavFilterRunnable::PhilNavFilterRunnable(PhilNavFilter *creator) {
+    m_filter = creator;
+    m_dirty = false;
+    m_frame = 0;
+};
 
 QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, RunFlags flags)
 {
@@ -17,11 +25,11 @@ QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFo
     }
 
     input->map(QAbstractVideoBuffer::ReadOnly);
-
     m_image = qt_imageFromVideoFrame(*input);
+    input->unmap();
+
     m_image = m_image.copy(m_image.width()/4, m_image.height()/4, m_image.width()/2, m_image.height()/2);
     m_image = m_image.scaled(320, 180);
-
     m_image = m_image.convertToFormat(QImage::Format_BGR888);
     cv::Mat mat = QImage2CVMat(m_image);
     cv::cvtColor(mat, mat, cv::COLOR_BGR2HSV);
@@ -31,7 +39,7 @@ QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFo
     cv::cvtColor(mat_inrange, mat_inrange, cv::COLOR_GRAY2BGR);
     QImage m_image_b = CVMat2QImage(mat_inrange);
 
-    input->unmap();
+//    PhilNavOpenCV pnocv;
 
     if (!m_dirty) {
 //        cv::imwrite("/Users/pbrocoum/Downloads/img.jpg", mat_inrange);

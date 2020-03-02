@@ -2,7 +2,6 @@
 #define PHILNAVFILTER_H
 
 #include <QAbstractVideoFilter>
-#include "private/qvideoframe_p.h"
 
 #include "opencv2/opencv.hpp"
 
@@ -23,11 +22,7 @@ public slots:
 class PhilNavFilterRunnable : public QVideoFilterRunnable
 {
 public:
-    PhilNavFilterRunnable(PhilNavFilter *creator) {
-        m_filter = creator;
-        m_dirty = false;
-        m_frame = 0;
-    };
+    PhilNavFilterRunnable(PhilNavFilter *creator);
     QVideoFrame run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, RunFlags flags);
 
 protected:

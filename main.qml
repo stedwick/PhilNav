@@ -25,11 +25,6 @@ Window {
     PhilNavFilter {
         id: philNavFilter
     }
-    Connections {
-        id: philNavFilterOnFrameProcessedConnection
-        target: philNavFilter
-        onFrameProcessed: philNavImageTimer.start()
-    }
     Timer {
         id: philNavImageTimer
         interval: 1
@@ -42,27 +37,26 @@ Window {
             philNavImage.source = "image://philnavimageprovider/0"
         }
     }
+    Connections {
+        id: philNavFilterOnFrameProcessedConnection
+        target: philNavFilter
+        onFrameProcessed: philNavImageTimer.start()
+    }
 
     Flow {
         anchors.fill: parent
 
-        Item {
+        VideoOutput {
+            source: camera
             width: 320
             height: 180
-            VideoOutput {
-                source: camera
-                anchors.fill: parent
-                filters: [philNavFilter]
-            }
+            filters: [philNavFilter]
         }
-        Item {
+        Image {
+            id: philNavImage
             width: 320
             height: 180
-            Image {
-                id: philNavImage
-                anchors.fill: parent
-                cache: false
-            }
+            cache: false
         }
 
         Text {
@@ -178,14 +172,13 @@ Window {
             second.value: 255
         }
 
-        Rectangle {
+        Text {
             id: smile
-            width: 100
-            height: window.gradientHeight
-            color: "red"
-            border.color: "black"
-            border.width: 5
-            radius: 10
+            text: "Camera deviceId: " + camera.deviceId
+            width: parent.width
+            font.pointSize: window.fontPointSize
+            color: window.fontColor
+            horizontalAlignment: window.horizontalAlignment
         }
     }
 }

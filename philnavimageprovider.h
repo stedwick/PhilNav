@@ -6,7 +6,7 @@
 class PhilNavImageProvider : public QQuickImageProvider
 {
 public:
-    PhilNavImageProvider() : QQuickImageProvider(QQuickImageProvider::Image) {};
+    PhilNavImageProvider();
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
 
     static QImage image;

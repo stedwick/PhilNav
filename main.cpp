@@ -1,8 +1,8 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-
 #include "philnavfilter.h"
 #include "philnavimageprovider.h"
+
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 
 QImage PhilNavImageProvider::image;
 
