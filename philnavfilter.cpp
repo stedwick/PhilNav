@@ -38,7 +38,27 @@ QVideoFrame PhilNavFilterRunnable::run(QVideoFrame *input, const QVideoSurfaceFo
     cv::Scalar hsvLow(settings.value("hsvHueLow").toInt()/2, settings.value("hsvSatLow").toInt(), settings.value("hsvValLow").toInt());
     cv::Scalar hsvHigh(settings.value("hsvHueHigh").toInt()/2, settings.value("hsvSatHigh").toInt(), settings.value("hsvValHigh").toInt());
     cv::inRange(mat, hsvLow, hsvHigh, mat_inrange);
-    cv::cvtColor(mat_inrange, mat_inrange, cv::COLOR_GRAY2BGR);
+
+    cv::SimpleBlobDetector::Params params;
+    params.blobColor = 255;
+    params.minThreshold = 200;
+    params.maxThreshold = 255;
+    params.filterByArea = true;
+    params.minArea = 40;
+    params.filterByCircularity = false;
+    params.minCircularity = 0.1;
+    params.filterByConvexity = false;
+    params.minConvexity = 0.87;
+    params.filterByInertia = false;
+    params.minInertiaRatio = 0.01;
+    std::vector<cv::KeyPoint> keypoints;
+    cv::Ptr<cv::SimpleBlobDetector> detector = cv::SimpleBlobDetector::create(params);
+    detector->detect(mat_inrange, keypoints);
+    cv::Mat im_with_keypoints;
+    cv::drawKeypoints(mat_inrange, keypoints, im_with_keypoints, cv::Scalar(0, 0, 255), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+
+    mat_inrange = im_with_keypoints;
+//    cv::cvtColor(mat_inrange, mat_inrange, cv::COLOR_GRAY2BGR);
     QImage m_image_b = CVMat2QImage(mat_inrange);
 
 //    PhilNavOpenCV pnocv;
