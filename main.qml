@@ -10,7 +10,7 @@ Window {
     id: window
     visible: true
     title: qsTr("PhilNav")
-    width: 640
+    width: 960
     height: 480
     color: "#404040"
 
@@ -18,6 +18,15 @@ Window {
     property color fontColor: "cyan"
     property int horizontalAlignment: Text.AlignHCenter
     property real gradientHeight: 25
+
+    Settings {
+        property alias hsvHueLow: hueSlider.first.value
+        property alias hsvHueHigh: hueSlider.second.value
+        property alias hsvSatLow: satSlider.first.value
+        property alias hsvSatHigh: satSlider.second.value
+        property alias hsvValLow: valSlider.first.value
+        property alias hsvValHigh: valSlider.second.value
+    }
 
     Camera {
         id: camera
@@ -39,33 +48,29 @@ Window {
         }
     }
     Connections {
-        id: philNavFilterOnFrameProcessedConnection
         target: philNavFilter
         onFrameProcessed: philNavImageTimer.start()
     }
-    Settings {
-        property alias hsvHueLow: hueSlider.first.value
-        property alias hsvHueHigh: hueSlider.second.value
-        property alias hsvSatLow: satSlider.first.value
-        property alias hsvSatHigh: satSlider.second.value
-        property alias hsvValLow: valSlider.first.value
-        property alias hsvValHigh: valSlider.second.value
-    }
 
     Flow {
-        anchors.fill: parent
-
-        VideoOutput {
-            source: camera
+        width: 640
+        Item {
             width: 320
             height: 180
-            filters: [philNavFilter]
+            VideoOutput {
+                anchors.fill: parent
+                source: camera
+                filters: [philNavFilter]
+            }
         }
-        Image {
-            id: philNavImage
+        Item {
             width: 320
             height: 180
-            cache: false
+            Image {
+                id: philNavImage
+                anchors.fill: parent
+                cache: false
+            }
         }
 
         Text {
@@ -119,68 +124,74 @@ Window {
             second.value: 359
         }
 
-        Text {
-            text: qsTr("Saturation")
-            width: parent.width
-            font.pointSize: window.fontPointSize
-            color: window.fontColor
-            horizontalAlignment: window.horizontalAlignment
-        }
-        Rectangle {
-            width: parent.width
-            height: window.gradientHeight
-            gradient: Gradient {
-                orientation: Gradient.Horizontal
-                GradientStop {
-                    position: 0
-                    color: "gray"
-                }
-                GradientStop {
-                    position: 1
-                    color: Qt.hsva(
-                               ((hueSlider.first.value + hueSlider.second.value) / 2 / 360),
-                               1, 1, 1)
+        Column {
+            width: parent.width / 2
+            Text {
+                text: qsTr("Saturation")
+                width: parent.width
+                font.pointSize: window.fontPointSize
+                color: window.fontColor
+                horizontalAlignment: window.horizontalAlignment
+            }
+            Rectangle {
+                width: parent.width
+                height: window.gradientHeight
+                gradient: Gradient {
+                    orientation: Gradient.Horizontal
+                    GradientStop {
+                        position: 0
+                        color: "gray"
+                    }
+                    GradientStop {
+                        position: 1
+                        color: Qt.hsva(
+                                   ((hueSlider.first.value + hueSlider.second.value) / 2 / 360),
+                                   1, 1, 1)
+                    }
                 }
             }
+            RangeSlider {
+                id: satSlider
+                width: parent.width
+                from: 0
+                to: 255
+                first.value: 0
+                second.value: 255
+            }
         }
-        RangeSlider {
-            id: satSlider
-            width: parent.width
-            from: 0
-            to: 255
-            first.value: 0
-            second.value: 255
-        }
+        Column {
+            width: parent.width / 2
+            Text {
+                text: qsTr("Value")
+                width: parent.width
+                font.pointSize: window.fontPointSize
+                color: window.fontColor
+                horizontalAlignment: window.horizontalAlignment
+            }
 
-        Text {
-            text: qsTr("Value")
-            width: parent.width
-            font.pointSize: window.fontPointSize
-            color: window.fontColor
-            horizontalAlignment: window.horizontalAlignment
-        }
-        Rectangle {
-            width: parent.width
-            height: window.gradientHeight
-            gradient: Gradient {
-                orientation: Gradient.Horizontal
-                GradientStop {
-                    position: 0
-                    color: "black"
-                }
-                GradientStop {
-                    position: 1
-                    color: "white"
+            Rectangle {
+                width: parent.width
+                height: window.gradientHeight
+                gradient: Gradient {
+                    orientation: Gradient.Horizontal
+                    GradientStop {
+                        position: 0
+                        color: "black"
+                    }
+                    GradientStop {
+                        position: 1
+                        color: "white"
+                    }
                 }
             }
-        }
-        RangeSlider {
-            id: valSlider
-            width: parent.width
-            from: 0
-            to: 255
-            first.value: 0
-            second.value: 255
+            RangeSlider {
+                id: valSlider
+                width: parent.width
+                from: 0
+                to: 255
+                first.value: 0
+                second.value: 255
+            }
         }
 
         Text {
